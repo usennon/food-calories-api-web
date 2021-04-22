@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if not current_user.is_authenticated %}
+<a href="{{ url_for('login') }}">Login</a>
+<a href="{{ url_for('register') }}">Registration</a>
+{% else %}
+<a href="{{ url_for('logout') }}">Logout</a>
+<a href="{{ url_for('show_food') }}">You can check a written food here</a>
+{% endif %}
+    <h1>Choose a food</h1>
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+    <form method="post">
+        <input name="food_name" type="text">
+        {% if name %}
+        <button type="submit" value="{{ name }}-{{ food['ENERC_KCAL'] }}-{{ food['FAT'] }}" name="write_data" formmethod="post">
+            <p>Do you want to write this to the database? Click this.</p>
+        </button>
+        {% endif %}
+    </form>
+    {% if food and name %}
+        {{ name }}
+        {{ food['ENERC_KCAL'] }}
+    {% endif %}
+</body>
+</html>
